@@ -1,0 +1,77 @@
+name: Integration workflow
+
+on:
+  pull_request:
+    branches: [develop]
+  push:
+    branches:
+      - release
+      - develop
+
+jobs:
+
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'adopt'
+
+      - name: Execute Checkstyle
+        run: mvn checkstyle:check -Dcheckstyle.config.location=checkstyle-rules.xml
+
+  jacoco:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: 17
+        distribution: 'adopt'
+
+    - name: Build and test with Maven
+      run: mvn clean verify jacoco:report
+
+    - name: Upload coverage report artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: report.xml
+          path:
+            ${{ github.workspace }}/target/coverage/jacoco-resources/jacoco.xml
+
+    - name: Debug JaCoCo report path
+      run: ls -R ${{ github.workspace }}/target/coverage/
+
+    - name: Debug JaCoCo report content
+      run: cat ${{ github.workspace }}/target/coverage/jacoco.xml
+
+
+    - name: Add coverage to PR
+      id: jacoco
+      uses: madrapps/jacoco-report@v1.6.1
+      with:
+        paths:
+          ${{ github.workspace }}/target/coverage/jacoco-resources/*.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        min-coverage-overall: 95
+        min-coverage-changed-files: 10
+        debug-mode: true
+        title: '# :lobster: Coverage Report'
+        pass-emoji: ':green_circle:'
+        fail-emoji: ':red_circle:'
+        update-comment: false
+        continue-on-error: false
+
+
+    - name: Get the Coverage info
+      run: |
+          echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+          echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
