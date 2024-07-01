@@ -34,8 +34,7 @@ public class GlobalErrorWebExceptionHandler extends ResponseStatusExceptionHandl
             return Mono.error(ex);
         }
 
-        if (ex instanceof ResponseStatusException) {
-            ResponseStatusException exception = (ResponseStatusException) ex;
+        if (ex instanceof ResponseStatusException exception) {
             if (exception.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 response.setStatusCode(HttpStatus.NOT_FOUND);
                 response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
