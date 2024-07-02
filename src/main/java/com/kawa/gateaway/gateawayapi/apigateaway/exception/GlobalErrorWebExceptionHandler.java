@@ -13,18 +13,18 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Global error handler for handling web exceptions in a reactive environment.
+ * Gestionnaire d'erreurs global pour traiter les exceptions web dans un environnement réactif.
  */
 @Configuration
 @Order(-2)
 public class GlobalErrorWebExceptionHandler extends ResponseStatusExceptionHandler {
 
     /**
-     * Handles exceptions and generates a custom response for 404 Not Found errors.
+     * Gère les exceptions et génère une réponse personnalisée pour les erreurs 404 Not Found.
      *
-     * @param exchange The ServerWebExchange instance
-     * @param ex       The Throwable instance
-     * @return Mono<Void> indicating when exception handling is complete
+     * @param exchange L'instance ServerWebExchange
+     * @param ex       L'instance Throwable
+     * @return Un Mono<Void> indiquant quand la gestion de l'exception est terminée
      */
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {

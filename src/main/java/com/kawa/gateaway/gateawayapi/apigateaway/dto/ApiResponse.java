@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * A generic API response wrapper that includes a success flag, message, and data.
+ * Un wrapper générique de réponse API qui inclut un indicateur de succès, un message et des données.
  *
- * @param <T> the type of the data contained in the response
+ * @param <T> le type des données contenues dans la réponse
  */
 @Data
 @AllArgsConstructor

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import reactor.core.publisher.Mono;
 
 /**
- * Global exception handler for handling exceptions in a reactive environment.
+ * Gestionnaire global des exceptions pour gérer les exceptions dans un environnement réactif.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,10 +18,10 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * Handles ResourceNotFoundException.
+     * Gère l'exception ResourceNotFoundException.
      *
-     * @param ex The ResourceNotFoundException instance
-     * @return Mono with ResponseEntity containing an error message and HTTP status 404
+     * @param ex L'instance de ResourceNotFoundException
+     * @return Un Mono contenant ResponseEntity avec un message d'erreur et un statut HTTP 404
      */
     @ExceptionHandler(ResourceNotFoundException.class)
     public Mono<ResponseEntity<ApiResponse<String>>> handleResourceNotFoundException(ResourceNotFoundException ex) {
@@ -31,10 +31,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handles IllegalArgumentException.
+     * Gère l'exception IllegalArgumentException.
      *
-     * @param ex The IllegalArgumentException instance
-     * @return Mono with ResponseEntity containing an error message and HTTP status 400
+     * @param ex L'instance de IllegalArgumentException
+     * @return Un Mono contenant ResponseEntity avec un message d'erreur et un statut HTTP 400
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public Mono<ResponseEntity<ApiResponse<String>>> handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -44,10 +44,10 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handles all other exceptions.
+     * Gère toutes les autres exceptions.
      *
-     * @param ex The Exception instance
-     * @return Mono with ResponseEntity containing an error message and HTTP status 500
+     * @param ex L'instance de l'Exception
+     * @return Un Mono contenant ResponseEntity avec un message d'erreur et un statut HTTP 500
      */
     @ExceptionHandler(Exception.class)
     public Mono<ResponseEntity<ApiResponse<String>>> handleGlobalException(Exception ex) {

@@ -13,10 +13,10 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * A filter to authenticate requests by validating JWT tokens.
- * This filter intercepts requests and checks for the presence of an authorization header.
- * If the header is present, it validates the JWT token.
- * If the validation fails or the header is missing, it returns an unauthorized error response.
+ * Un filtre pour authentifier les requêtes en validant les jetons JWT.
+ * Ce filtre intercepte les requêtes et vérifie la présence d'en-têtes d'autorisation.
+ * Si l'en-tête est présent, il valide le jeton JWT.
+ * Si la validation échoue ou si l'en-tête est manquant, il renvoie une réponse d'erreur non autorisée.
  */
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
@@ -25,10 +25,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     private final RouteValidator validator;
 
     /**
-     * Constructs an AuthenticationFilter with the specified JwtUtil and RouteValidator.
+     * Construit un filtre d'authentification avec JwtUtil et RouteValidator spécifiés.
      *
-     * @param jwtUtil    the utility for JWT operations
-     * @param validator  the validator to check if a route is secured
+     * @param jwtUtil    l'utilitaire pour les opérations JWT
+     * @param validator  le validateur pour vérifier si une route est sécurisée
      */
     public AuthenticationFilter(JwtUtil jwtUtil, RouteValidator validator) {
         super(Config.class);
@@ -37,11 +37,11 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     }
 
     /**
-     * Applies the filter logic.
-     * Checks if the request is to a secured route, validates the JWT token, and handles errors.
+     * Applique la logique du filtre.
+     * Vérifie si la requête concerne une route sécurisée, valide le jeton JWT et gère les erreurs.
      *
-     * @param config the configuration object
-     * @return the gateway filter
+     * @param config l'objet de configuration
+     * @return le filtre de passerelle
      */
     @Override
     public GatewayFilter apply(Config config) {
@@ -67,19 +67,19 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     }
 
     /**
-     * Handles error responses by generating an error response with the specified message and status.
+     * Gère les réponses d'erreur en générant une réponse d'erreur avec le message et le statut spécifiés.
      *
-     * @param exchange the server web exchange
-     * @param message  the error message
-     * @param status   the HTTP status
-     * @return a Mono<Void> indicating when the error response is complete
+     * @param exchange l'échange web serveur
+     * @param message  le message d'erreur
+     * @param status   le statut HTTP
+     * @return un Mono<Void> indiquant quand la réponse d'erreur est complète
      */
     private Mono<Void> onError(ServerWebExchange exchange, String message, HttpStatus status) {
         return ErrorResponseUtil.generateErrorResponse(exchange.getResponse(), status, message);
     }
 
     /**
-     * Configuration class for the AuthenticationFilter.
+     * Classe de configuration pour AuthenticationFilter.
      */
     public static class Config { }
 }

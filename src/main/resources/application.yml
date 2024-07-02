@@ -33,10 +33,10 @@ spring:
           filters:
             - AuthenticationFilter
 
-        - id: client-service
-          uri: lb://client-service
+        - id: clients-api
+          uri: lb://clients-api
           predicates:
-            - Path=/clients/**
+            - Path=/internal/api/v1/customers/**
           filters:
             - AuthenticationFilter
 
@@ -52,4 +52,4 @@ spring:
             - Path=/eureka/**
 
 jwt:
-  secret: RmYwbGF4MGQ0Zk1Dd3E5RmNhZkdWcGNYaUdITXlIUVNRNjFDT0d5bVVsZEVFdw==
+  secret: ${JWT-TOKEN}
