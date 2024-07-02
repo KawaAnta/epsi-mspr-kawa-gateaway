@@ -10,5 +10,5 @@ RUN mvn clean package -Dmaven.test.skip
 FROM openjdk:17
 VOLUME /tmp
 EXPOSE 8080
-COPY --from=build /app/target/gateaway-api-0.0.1-SNAPSHOT.jar gateaway_api.jar
-ENTRYPOINT ["java","-jar","/gateaway_api.jar"]
+COPY --from=build /app/target/gateway-api-0.0.1-SNAPSHOT.jar gateway_api.jar
+ENTRYPOINT ["java","-jar","/gateway_api.jar"]

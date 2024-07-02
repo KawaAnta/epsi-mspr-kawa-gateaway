@@ -1,25 +1,55 @@
 spring:
   application:
     name: api-gateway
+  config:
+    import: "optional:configserver:http://localhost:8088"
+
   cloud:
     gateway:
       routes:
-        - id: clients-service
-          uri: lb://clients-service
+        - id: auth-service
+          uri: lb://auth-service
           predicates:
-            - Path=/clients/**
-        - id: commandes-service
-          uri: lb://commandes-service
-          predicates:
-            - Path=/commandes/**
-        - id: produits-service
-          uri: lb://produits-service
-          predicates:
-            - Path=/produits/**
-server:
-  port: 8080
+            - Path=/auth/**
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+        - id: user-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/users/**
+          filters:
+            - AuthenticationFilter
+
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders/**
+          filters:
+            - AuthenticationFilter
+
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/products/**
+          filters:
+            - AuthenticationFilter
+
+        - id: clients-api
+          uri: lb://clients-api
+          predicates:
+            - Path=/internal/api/v1/customers/**
+          filters:
+            - AuthenticationFilter
+
+        - id: eureka-server
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/main
+          filters:
+            - RewritePath=/eureka/(?<segment>.*), /$\{segment}
+        - id: eureka-server-static
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/**
+
+jwt:
+  secret: ${JWT-TOKEN}
