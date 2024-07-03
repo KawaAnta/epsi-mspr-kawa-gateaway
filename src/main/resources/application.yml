@@ -19,17 +19,17 @@ spring:
           filters:
             - AuthenticationFilter
 
-        - id: order-service
-          uri: lb://order-service
+        - id: orders-api
+          uri: lb://orders-api
           predicates:
-            - Path=/orders/**
+            - Path=/internal/api/v1/orders/**
           filters:
             - AuthenticationFilter
 
-        - id: product-service
-          uri: lb://product-service
+        - id: products-api
+          uri: lb://products-api
           predicates:
-            - Path=/products/**
+            - Path=/internal/api/v1/products/**
           filters:
             - AuthenticationFilter
 
@@ -52,4 +52,4 @@ spring:
             - Path=/eureka/**
 
 jwt:
-  secret: ${JWT-TOKEN}
+  secret: ${jwt_token}
